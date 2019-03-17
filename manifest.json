@@ -1,0 +1,43 @@
+{
+	"manifest_version": 2,
+	"name": "metro-minute",
+	"version": "0.1.1",
+
+	"author": "Vitaliy (cerriun@gmail.com)",
+	"developer": {
+	  "name": "Vitaliy",
+	  "url": "https://github.com/skipme"
+	},
+	"applications": {
+	  "gecko": {
+	    "strict_min_version": "60.0"
+	  }
+	},
+	
+	"icons": {
+	  "32": "icon.png",
+	  "64": "icon64.png"
+	},
+	"options_ui": {
+	  "page": "config.html",
+	  "open_in_tab": false
+	},
+	"background": {
+    	"page": "main.html"
+  	},
+
+	"web_accessible_resources": ["config.html", "msk.json"],
+  	"content_scripts": [
+	    {
+	      // "exclude_matches": ["moz-extension://*"],
+	      "matches": ["*://*.hh.ru/search/*"],
+	      "js": ["CONST.js", "metrocom.js", "page_hhru.js"]
+	    }
+  	],
+  	"permissions": [
+  		 "*://*.hh.ru/search/*",
+  		//"activeTab",
+  		"tabs",
+  		"storage"
+  	]
+}
