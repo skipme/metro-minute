@@ -1,8 +1,8 @@
 var preferences = null;
-var metrodata = undefined
+var metrodata = null;
 
-document.body.style.border = "1px solid red";
-console.log("hey hh, i am loaded!")
+// document.body.style.border = "1px solid red";
+// console.log("hey hh, i am loaded!")
 
 var stations =  undefined
 var from = undefined
@@ -29,18 +29,39 @@ function mark_station_labels()
 
 		var s = m.childNodes[1].textContent
 		var tildei = -1
-		if((tildei = s.indexOf("~")) >= 0)s = m.childNodes[1].textContent = s.substring(0, tildei-1)
+		if((tildei = s.indexOf("≈")) >= 0)s = m.childNodes[1].textContent = s.substring(0, tildei-1)
 		if(s.length > 0)
 		{
-			var minutes = get(from, s.trim().replace(/\s/,"_").toLocaleLowerCase());
-			if(minutes === undefined){ 
-			console.log(s, s.trim().replace(/\s/,"_").toLocaleLowerCase(), minutes)
-			return;
+				var minutes = get(from, s.trim().replace(/\s/,"_").toLocaleLowerCase());
+				if(minutes === undefined){ 
+					console.log(s, s.trim().replace(/\s/,"_").toLocaleLowerCase(), minutes)
+					return;
+				}
 		}
 		  
-		  m.childNodes[1].textContent += " ~" + minute(minutes);
-		}
+		 m.childNodes[1].textContent += " ≈ " + minute(minutes);
 	})
+	document.querySelectorAll("span[data-qa=vacancy-view-raw-address]").forEach(function(m){
+		m.childNodes.forEach(function(me){
+			if(me.nodeName === "#text")
+			{
+				var s = me.textContent
+				var tildei = -1
+				if((tildei = s.indexOf("≈")) >= 0)s = me.textContent = s.substring(0, tildei-1)
+				if(s.length > 0)
+				{
+					var minutes = get(from, s.replace(/\,.+/,"").trim().replace(/\s/,"_").toLocaleLowerCase());
+					if(minutes === undefined){ 
+						console.log(s, s.trim().replace(/\s/,"_").toLocaleLowerCase(), minutes)
+						return;
+					}
+				}
+				  
+				me.textContent += " ≈ " + minute(minutes);
+			}
+		})
+	})
+	
 }
 dispatch(CONST.ACTION_F_metroData, function(data){
 			console.log("metrodata", data)
@@ -61,7 +82,7 @@ dispatch(CONST.ACTION_F_options, function(_prefs){
 		
 		preferences = _prefs;
 
-		if(metrodata.stations === undefined) return
+		if(metrodata === null || metrodata.stations === undefined) return
 		from = metrodata.stations[preferences.metro_station].replace("ё","е").replace(/\s/,"_").toLocaleLowerCase()
 		mark_station_labels() 
 	});

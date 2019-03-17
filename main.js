@@ -70,12 +70,17 @@ function getspbdata(cb)
 		cb(spbdata)
 }
 
+function getdatacb(cprefs)
+{
+	var cbc = getmskdata;
+	if(cprefs.metro_city === "spb")
+		cbc = getspbdata;
+	return cbc;
+}
+
 function sendmetrodata(toid, _prefs_) 
 {
-	let cbc = getmskdata;
-	if(_prefs_.metro_city === "spb")
-		cbc = getspbdata;
-	cbc((data, is_changed)=>{
+	getdatacb(_prefs_)((data, is_changed)=>{
 		if(list_connected_tabs.indexOf(toid) < 0)
 			browser.tabs.sendMessage(toid, {action: CONST.ACTION_F_metroData, args: [data]});
 	
@@ -117,12 +122,16 @@ function communication_gate(object_message, sender, sendResponse)
 
 			browser.tabs.sendMessage(sender.tab.id, {action: CONST.ACTION_F_options, args: [cprefs]});
 
-			let cbc = getmskdata;
-			if(cprefs.metro_city === "spb")
-				cbc = getspbdata;
-			cbc((data, is_changed)=>{browser.tabs.sendMessage(sender.tab.id, {action: CONST.ACTION_F_metroData, args: [data]});})
+			getdatacb(cprefs)((data, is_changed)=>{browser.tabs.sendMessage(sender.tab.id, {action: CONST.ACTION_F_metroData, args: [data]});})
 		break;
+		case CONST.QUERY_B_options:
 
+			var cprefs = preferences.getPrefs()
+
+			browser.tabs.sendMessage(sender.tab.id, {action: CONST.ACTION_C_options, args: [cprefs]});
+		
+			getdatacb(cprefs)((data, is_changed)=>{browser.tabs.sendMessage(sender.tab.id, {action: CONST.ACTION_F_metroData, args: [data]});})
+		break;
 		case CONST.ACTION_B_options:
 			let _prefs_ = object_message.args[1];
 
