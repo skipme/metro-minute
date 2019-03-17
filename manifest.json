@@ -6,7 +6,7 @@
 	"author": "Vitaliy (cerriun@gmail.com)",
 	"developer": {
 	  "name": "Vitaliy",
-	  "url": "https://github.com/skipme"
+	  "url": "https://github.com/skipme/metro-minute"
 	},
 	"applications": {
 	  "gecko": {
@@ -16,11 +16,11 @@
 	
 	"icons": {
 	  "32": "icon.png",
-	  "64": "icon64.png"
+	  "64": "icon.png"
 	},
 	"options_ui": {
 	  "page": "config.html",
-	  "open_in_tab": true
+	  "open_in_tab": false
 	},
 	"background": {
     	"page": "main.html"
@@ -30,11 +30,21 @@
   	"content_scripts": [
 	    {
 	      "matches": ["*://*.hh.ru/search/*", "*://*.hh.ru/vacancy/*"],
-	      "js": ["CONST.js", "metrocom.js", "page_hhru.js"]
+	      "js": ["CONST.js", "metrocom.js", "page_hhru.js", "marker.js"]
+	    },
+	    {
+	      "matches": ["*://*.avito.ru/*"],
+	      "js": ["CONST.js", "metrocom.js", "page_avitoru.js", "marker.js"]
+	    },
+	    {
+	      "matches": ["*://*.auto.ru/*"],
+	      "js": ["CONST.js", "metrocom.js", "page_autoru.js", "marker.js"]
 	    }
   	],
   	"permissions": [
   		 "*://*.hh.ru/*",
+  		 "*://*.avito.ru/*",
+  		 "*://*.auto.ru/*",
   		//"activeTab",
   		"tabs",
   		"storage"
