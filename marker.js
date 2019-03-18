@@ -10,7 +10,7 @@ var from = undefined
 function get(s1, s2)
 {
 	var r1 = stations.indexOf(s1)
-	var r2 = stations.indexOf(s2)
+	var r2 = stations.indexOf(s2.replace("ё","е"))
 
 	if(r1<0 || r2<0)return undefined;
 

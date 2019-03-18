@@ -1,6 +1,16 @@
+
+var hrefdoc = document.location.href
+setInterval(()=>{ // spa document, history.push can't accessed, MutationObserver is too for that page - overloaded with scripts, ads, etc...
+	if(document.location.href !== hrefdoc)
+	{
+		hrefdoc = document.location.href
+		setTimeout(mark_station_labels, 5000)//5sec
+	}
+}, 10000)//10sec
+
 function mark_station_labels() 
 {
-	document.querySelectorAll(".MetroList__stationFirstName").forEach(function(m){
+	document.querySelectorAll(".MetroList__stationContent").forEach(function(m){
 		var s = m.textContent
 		if(s === undefined)return
 		var tildei = -1

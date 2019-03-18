@@ -15,7 +15,7 @@ var preferences =
 
 		data = await that.readAsync("ExtensionPrefs");
 
-		if(data === undefined || data._ytranslate_ === undefined)
+		if(data === undefined || data["_metro-minute_"] === undefined)
 			data = _def_prefs_;
 		
 		this.common_prefs = data;
