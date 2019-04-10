@@ -20,7 +20,7 @@ function get(s1, s2)
 
 function minute(number_minute)
 {
-	return (Math.round(number_minute/60))+" мин."
+	return number_minute+" мин."
 }
 
 dispatch(CONST.ACTION_F_metroData, function(data){
